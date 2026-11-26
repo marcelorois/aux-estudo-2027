@@ -11,7 +11,7 @@
 :root{
   --bg:#F3F4F7;--surface:#FFFFFF;--ink:#1B2230;--muted:#586173;--line:#DCE0E7;
   --warn:#B3261E;--warn-bg:#FBEDEB;--gold:#8A5A00;--gold-bg:#FBF3E0;--ok:#1E6B3A;
-  --accent:#3B5BA9;--accent-bg:#EAF0FB;--chip:#EDEFF3;
+  --accent:#3B5BA9;--accent-bg:#EAF0FB;--chip:#EDEFF3;--q-bg:#DDF0E3;--q-ink:#1E6B3A;--c-bg:#EEE3F7;--c-ink:#6A2C8C;
   --serif:"Literata",Georgia,"Times New Roman",serif;
   --ui:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   color-scheme:light;
@@ -20,9 +20,9 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#12151B;--surface:#1A1F28;--ink:#E7EAF0;--muted:#A3ABBB;--line:#2C3442;
   --warn:#FF8F84;--warn-bg:#3A1D1B;--gold:#F0C46A;--gold-bg:#332814;--ok:#7DD39A;
-  --accent-bg:#1F2738;--chip:#232A36;color-scheme:dark;}}
+  --accent-bg:#1F2738;--chip:#232A36;--q-bg:#1D3828;--q-ink:#8FDDAA;--c-bg:#33253F;--c-ink:#D9B8F2;color-scheme:dark;}}
 :root[data-theme="dark"]{--bg:#12151B;--surface:#1A1F28;--ink:#E7EAF0;--muted:#A3ABBB;--line:#2C3442;
-  --warn:#FF8F84;--warn-bg:#3A1D1B;--gold:#F0C46A;--gold-bg:#332814;--ok:#7DD39A;--accent-bg:#1F2738;--chip:#232A36;color-scheme:dark;}
+  --warn:#FF8F84;--warn-bg:#3A1D1B;--gold:#F0C46A;--gold-bg:#332814;--ok:#7DD39A;--accent-bg:#1F2738;--chip:#232A36;--q-bg:#1D3828;--q-ink:#8FDDAA;--c-bg:#33253F;--c-ink:#D9B8F2;color-scheme:dark;}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 110px);-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.6}
@@ -37,6 +37,8 @@ button,select{font-family:var(--ui);font-size:16px}
 .nav{display:flex;gap:6px;overflow-x:auto;padding:6px 16px 10px;max-width:760px;margin:0 auto;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
 .nav a{flex:none;font-family:var(--ui);font-size:14px;text-decoration:none;padding:6px 11px;border-radius:999px;background:var(--chip);color:var(--ink);white-space:nowrap}
+.nav a.n-questoes{background:var(--q-bg);color:var(--q-ink)}
+.nav a.n-cards{background:var(--c-bg);color:var(--c-ink)}
 .nav a.on{background:var(--ink);color:var(--surface)}
 main{max-width:760px;margin:0 auto;padding:16px 16px 140px}
 h1{font-size:30px;line-height:1.15;margin:8px 0 6px;font-weight:700;letter-spacing:-.01em}
@@ -122,6 +124,8 @@ th{font-family:var(--ui);background:var(--chip)}
 @media (prefers-reduced-motion:no-preference){.fc{transition:transform .25s}}
 p,li,td{overflow-wrap:break-word}
 span.fg{cursor:pointer;border-bottom:1.5px dotted var(--accent);-webkit-tap-highlight-color:rgba(59,91,169,.15)}
+span.es{cursor:pointer;border-bottom:1.5px dashed var(--gold);-webkit-tap-highlight-color:rgba(138,90,0,.15)}
+span.es:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:2px}
 span.fg:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
 #figBack{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .2s;z-index:60}
 #figSheet{position:fixed;left:0;right:0;bottom:0;max-height:62vh;overflow:auto;background:var(--surface);color:var(--ink);border-top:1px solid var(--line);border-radius:16px 16px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.18);padding:14px 16px calc(18px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .22s ease;z-index:61;font-size:16px;line-height:1.5;max-width:760px;margin:0 auto}
@@ -131,6 +135,7 @@ span.fg:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-
 #figSheet .fs-x{all:unset;cursor:pointer;font-size:18px;padding:6px 10px;border-radius:10px;background:var(--chip)}
 #figSheet p{margin:0 0 10px}
 #figSheet .fs-l{display:block;font-family:var(--ui);font-weight:700;font-size:13px;color:var(--muted)}
+#figSheet .fs-k{font-family:var(--ui);font-size:13px;color:var(--muted);margin:-4px 0 10px}
 #figSheet .fs-go{font-family:var(--ui);font-size:15px}
 </style>
 <link rel="manifest" href="manifest.webmanifest">
@@ -628,6 +633,32 @@ XCARDS.push(['Quais são as 3 gerações da poesia romântica brasileira?','1ª 
 ['Por que Caminho de pedras foge do regionalismo de 30?','É urbano (Fortaleza), sem seca nem sertão, e aprofunda a vida íntima de Noemi.'],
 ['Quais as marcas da 3ª fase modernista na prosa?','Introspecção, fluxo de consciência, tempo psicológico, epifania, experimentação com a linguagem (Clarice, Guimarães Rosa).'],
 ['O que é literatura pós-colonial?','A que revê a história a partir dos colonizados e reescreve textos canônicos, como A visão das plantas com Raul Brandão.']);
+
+// Glossário para os termos clicáveis da página (app.js: linkGloss). f = formas que aparecem no texto (regex).
+const ESCDEF=[
+{n:'Barroco',f:'Barroco|barrocos?|barrocas?',p:'Século XVII (no Brasil, até cerca de 1768).',m:'Conflito entre fé e pecado, corpo e alma; jogos de linguagem, antíteses, paradoxos, argumentação engenhosa.',l:'Nenhuma obra da lista. Gregório de Matos caiu em 2023 (o soneto do pecador que argumenta com Deus).',t:'Mostre o conflito e a figura que o expressa (antítese, paradoxo, raciocínio em silogismo).'},
+{n:'Arcadismo',f:'Arcadismo|árcades?|arcádic[oa]s?',p:'Século XVIII (no Brasil, cerca de 1768 a 1836).',m:'Simplicidade, vida no campo idealizada (locus amoenus), pastores e pastoras, pseudônimos, tradição greco-latina, razão iluminista.',l:'Nenhuma obra da lista. Caiu em 2024 e 2025 via Gonzaga e o Romanceiro da Inconfidência.',t:'Aponte o traço árcade (pastoril, mitologia, disfarce do poeta) e mostre onde o texto o contradiz.'},
+{n:'Iluminismo',f:'Iluminismo|iluministas?',p:'Século XVIII, na Europa.',m:'Confiança na razão, na ciência e na educação; crítica ao absolutismo e aos privilégios.',l:'Fundo do Arcadismo e da Inconfidência; ecoa na defesa da educação em Opúsculo humanitário.',t:'Ligue a ideia de razão e educação ao argumento do texto.'},
+{n:'Romantismo',f:'Romantismo|românticos?|românticas?',p:'No Brasil, de 1836 a cerca de 1881.',m:'Subjetividade e sentimento, idealização da mulher, do amor e da pátria, nacionalismo, natureza grandiosa, fuga para a noite, a morte e o sonho, liberdade de forma.',l:'Opúsculo humanitário (1853): Romantismo em ensaio. Nebulosas (1872): 2ª e 3ª gerações.',t:'Escola + dois traços + onde aparecem + onde a obra foge (no Opúsculo, os dados e a razão; em Nebulosas, a voz feminina e política).'},
+{n:'Ultrarromantismo (2ª geração)',f:'ultrarromantismo|ultrarromânticos?|ultrarromânticas?|mal do século',p:'Poesia romântica de meados do século XIX.',m:'Tédio, melancolia, amor impossível, noite e morte; Álvares de Azevedo, Casimiro de Abreu.',l:'Nebulosas: os poemas de dor, saudade e desalento.',t:'Mostre a melancolia e a fuga da realidade no poema citado.'},
+{n:'Condoreirismo (3ª geração)',f:'condoreirismo|condoreir[oa]s?',p:'Poesia romântica social, por volta de 1860–1880.',m:'Poesia social e política (abolição, república), tom grandioso, apóstrofes, exclamações, imagens do céu e do voo (o condor). Castro Alves.',l:'Nebulosas: "O africano e o poeta", a elegia a Castro Alves, "Pesadelo" e os poemas cívicos.',t:'Aponte a causa social defendida e o recurso retórico (apóstrofe, hipérbole, imagem do voo).'},
+{n:'Indianismo',f:'indianismo|indianistas?',p:'1ª geração romântica (meados do século XIX).',m:'O indígena idealizado como herói nacional; natureza brasileira como orgulho. Gonçalves Dias, José de Alencar.',l:'Contraste útil com Opúsculo humanitário, que trata os indígenas como povos a educar e a defender, não como mito.',t:'Diferencie idealização romântica de argumento político.'},
+{n:'Realismo',f:'Realismo|realistas?',p:'No Brasil, a partir de 1881 (Memórias póstumas de Brás Cubas).',m:'Objetividade, crítica à burguesia, ao casamento por interesse e à hipocrisia, personagens comuns, cidade, análise psicológica e ironia.',l:'Memórias de Martha (1899): cotidiano urbano, desigualdade, casamento como amparo.',t:'Realismo e Naturalismo são parentes, não sinônimos: o Realismo critica a sociedade e analisa a psicologia.'},
+{n:'Naturalismo',f:'Naturalismo|naturalistas?',p:'Fim do século XIX (O mulato, 1881; O cortiço, 1890).',m:'Determinismo do meio, da hereditariedade e do momento; animalização; vícios, doença e miséria; o coletivo como personagem.',l:'Memórias de Martha tem cenas naturalistas no cortiço, mas foge da escola: 1ª pessoa subjetiva, e Martha sai do meio pela educação (Fuvest 2026).',t:'Use o par Pombinha (O cortiço) × Martha: meio que determina × meio vencido pela educação.'},
+{n:'Parnasianismo',f:'Parnasianismo|parnasian[oa]s?',p:'Fim do século XIX.',m:'Arte pela arte, forma perfeita, soneto, rima rica, objetividade, temas clássicos.',l:'Nenhuma obra da lista; útil para dizer o que Nebulosas não é.',t:'Contraponha a contenção parnasiana à efusão romântica.'},
+{n:'Simbolismo',f:'Simbolismo|simbolistas?',p:'Fim do século XIX.',m:'Sugestão, mistério, musicalidade, sinestesia, espiritualidade.',l:'Nenhuma obra da lista.',t:'Lembre a sinestesia e a sonoridade como marcas.'},
+{n:'Modernismo brasileiro',f:'Modernismo|modernistas?|Semana de Arte Moderna|Semana de 22',p:'A partir de 1922, em três fases.',m:'1ª fase: ruptura, verso livre, humor, paródia, coloquialidade. 2ª fase: romance social de 30 e poesia de Drummond e Cecília. 3ª fase: introspecção e invenção da linguagem.',l:'Caminho de pedras (2ª fase, 1937). A paixão segundo G. H. (3ª fase, 1964).',t:'Diga a fase e o traço: denúncia social (Rachel) ou mergulho na consciência (Clarice).'},
+{n:'Romance de 30 (regionalismo de 30)',f:'[Rr]omance de (?:19)?30|[Rr]egionalismo de (?:19)?30|romance social de (?:19)?30|geração de (?:19)?30',p:'Década de 1930, Era Vargas.',m:'Romance social, sobretudo nordestino; denúncia da miséria e da exploração; linguagem direta; engajamento político. Graciliano, José Lins, Jorge Amado, Rachel de Queiroz.',l:'Caminho de pedras: engajamento, linguagem seca, repressão; mas é urbano (Fortaleza) e dá peso à vida íntima de Noemi.',t:'Confirma (compromisso social) e rompe (cidade, intimidade feminina). Em 2025, Os ratos foi lido como singularidade expressionista dentro do regionalismo de 30.'},
+{n:'Terceira fase do Modernismo (Geração de 45)',f:'[Gg]eração de 45|terceira fase do Modernismo|3ª fase do Modernismo',p:'A partir de 1945.',m:'Prosa voltada para dentro e para a linguagem: fluxo de consciência, monólogo interior, tempo psicológico, epifania. Clarice Lispector, Guimarães Rosa.',l:'A paixão segundo G. H. é o exemplo extremo: uma manhã, um quarto, uma barata, tudo na consciência da narradora.',t:'Mostre a técnica (fluxo, epifania) e o efeito: a ação é interior.'},
+{n:'Expressionismo',f:'Expressionismo|expressionistas?',p:'Arte europeia do fim do século XIX e início do XX (Van Gogh, Munch).',m:'Expressar subjetivamente o choque da realidade no ser humano: distorção, cores fortes, angústia, opressão.',l:'Caiu em 2025 com Os ratos. Na 1ª fase de 2027, Van Gogh foi comparado a "Desengano", de Narcisa: o pintor capta a vida interior das coisas; a poeta romântica faz da natureza extensão do eu.',t:'Diga o que é deformado pela emoção e com que efeito.'},
+{n:'Poesia portuguesa moderna',f:'poesia portuguesa moderna|Orpheu',p:'Século XX, depois de Fernando Pessoa e do grupo de Orpheu (1915), sob o Estado Novo (1933–1974).',m:'Caminhos variados: poesia de intervenção, neorrealismo, surrealismo. Sophia segue linha própria: clareza clássica, mito grego, luz e mar, ética da justiça.',l:'Geografia (1967): verso livre, poemas em prosa, resistência à ditadura por imagens, não por panfleto (Fuvest 2027, 1ª fase).',t:'Paisagem como verdade e limpidez contra a "noite" do regime.'},
+{n:'Neorrealismo',f:'[Nn]eorrealismo|neorrealistas?',p:'Portugal, décadas de 1930 a 1950.',m:'Literatura engajada, documental, de denúncia social, de inspiração marxista.',l:'Geografia não é neorrealista: resiste pela imagem e pela ética, sem documento nem panfleto.',t:'Use como contraste para definir a poesia de Sophia.'},
+{n:'Literaturas africanas de língua portuguesa',f:'[Ll]iteraturas? africanas?(?: de língua portuguesa)?',p:'Lutas de libertação (1961–1974) e independências de 1975.',m:'Afirmação de identidade, oralidade, provérbios e crenças, crítica ao colonialismo (trabalho forçado, assimilação), português misturado a termos locais; depois, crítica às próprias tradições.',l:'Balada de amor ao vento (1990): oralidade, lobolo e poligamia, degredo colonial, olhar feminino que critica o colonizador e o patriarcado.',t:'Mostre a dupla crítica (colonial e patriarcal). Em 2025 caiu Nós matamos o cão tinhoso! nesse eixo.'},
+{n:'Literatura contemporânea',f:'[Ll]iteratura contemporânea',p:'Do fim do século XX até hoje; não há escola única, mas tendências.',m:'Novas vozes (autoria negra, feminina, periférica), memória e testemunho, metaficção, pós-colonialismo, mistura de gêneros e fragmentação.',l:'Canção para ninar menino grande (2018) e A visão das plantas (2019).',t:'Nomeie a tendência e prove com a obra (escrevivência em Evaristo; revisão do passado colonial em Djaimilia).'},
+{n:'Pós-colonialismo',f:'pós-colonial(?:ismo)?|pós-coloniais',p:'Tendência crítica e literária do fim do século XX.',m:'Rever a história a partir dos colonizados; reescrever textos canônicos; expor violências apagadas.',l:'A visão das plantas reescreve Raul Brandão e expõe a violência escravista que Portugal esqueceu; Balada critica o colonialismo em Moçambique.',t:'Diga quem a história oficial apagava e como a obra devolve esse ponto de vista.'},
+{n:'Metaficção',f:'metaficç(?:ão|ões)|metaficcional(?:is)?',p:'Recurso frequente na literatura contemporânea.',m:'O texto discute a própria escrita, mostra como é feito.',l:'Canção para ninar menino grande: a narradora comenta a escrevivência e a dificuldade de contar.',t:'Mostre o momento em que o texto fala de si e o efeito (aproxima, problematiza a verdade).'},
+{n:'Escrevivência',f:'escrevivência',p:'Conceito criado por Conceição Evaristo.',m:'Escrita a partir da vivência, sobretudo de mulheres negras: memória coletiva, testemunho e invenção juntos.',l:'Canção para ninar menino grande (introdução e narradora-testemunha; Fuvest 2026).',t:'Ligue ao papel da memória como missão e à irmandade das mulheres.'}
+];
 
 const FIGQ=[
 {p:'(Modelo 2025) Num jogo de futebol, o narrador diz que a bola “beijou a trave” e que “foi morrer na bochecha da rede”. Explique os processos conotativos dessas expressões.',a:['As duas expressões dão à bola e à rede características de seres vivos: é prosopopeia (personificação), combinada com metáfora.','A bola “beija” (toque leve e afetuoso) e “morre” (perde força e para); a rede ganha “bochecha”, parte do rosto humano, por semelhança com o pano que estufa.','O efeito é dramatizar e tornar mais vivo o lance, transformando um fato técnico numa pequena cena humana.']},
@@ -1313,8 +1344,8 @@ try{const r=localStorage.getItem('fuv27lit');if(r)ST=Object.assign(ST,JSON.parse
 function save(){try{localStorage.setItem('fuv27lit',JSON.stringify(ST));}catch(e){}}
 function todayIdx(){const d=new Date();const iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');let i=PLAN.findIndex(p=>p[0]>=iso);if(i<0)i=PLAN.length-1;return i;}
 function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
-const NAVS=[['inicio','Início'],...ORDER.map(id=>[id,BY[id].e+' '+BY[id].short]),['metodo','Como responder'],['escolas','Escolas literárias'],['figuras','Figuras de linguagem'],['cruzar','Cruzar obras'],['questoes','Questões'],['cards','Flashcards'],['cola','Cola']];
-function nav(cur){$('#nav').innerHTML=NAVS.map(([h,l])=>`<a href="#${h}" class="${h===cur?'on':''}">${l}</a>`).join('');const on=$('#nav .on');if(on)on.scrollIntoView({inline:'center',block:'nearest'});}
+const NAVS=[['inicio','Início'],['cola','Cola'],...ORDER.map(id=>[id,BY[id].e+' '+BY[id].short]),['escolas','🏛️ Escolas literárias'],['figuras','🔤 Figuras de linguagem'],['metodo','Como responder'],['cruzar','Cruzar obras'],['questoes','Questões'],['cards','Flashcards']];
+function nav(cur){$('#nav').innerHTML=NAVS.map(([h,l])=>`<a href="#${h}" class="n-${h}${h===cur?' on':''}">${l}</a>`).join('');const on=$('#nav .on');if(on)on.scrollIntoView({inline:'center',block:'nearest'});}
 function sec(id,title,inner,extra=''){return `<section class="card ${extra}" id="${id}"><div class="sechead"><h2>${title}</h2><button class="say" data-say="${id}" aria-pressed="false" aria-label="Ouvir ${esc(title)}">▶ ouvir</button></div><div class="body">${inner}</div></section>`;}
 function qa(q,i){return `<p class="q">${q.p}</p><details><summary>Ver resposta-modelo</summary><div class="in ans">${q.a.map((s,k)=>`<p><span class="st">${['Afirme','Prove com a obra','Ligue ao enunciado'][k]||''}</span>${s}</p>`).join('')}</div></details>`;}
 function note(cls,lab,html){return `<div class="note ${cls}"><span class="lab">${lab}</span>${html}</div>`;}
@@ -1374,7 +1405,7 @@ function render(){
   document.documentElement.style.setProperty('--accent','#3B5BA9');
   let h;
   if(BY[r])h=book(r);else if(r==='metodo')h=metodo();else if(r==='cruzar')h=cruzar();else if(r==='escolas')h=ESCOLAS;else if(r==='figuras'){const fx=FIGQ.slice(FIGQ_N0);h=FIGURAS+'<h2 style="margin-top:22px">Questões discursivas para treinar</h2>'+FIGQ.slice(0,FIGQ_N0).map(q=>`<section class="card">${qa(q)}</section>`).join('')+((FIG_EXTRA||fx.length)?`<details class="deep"><summary>Treino e banco de figuras (opcional)</summary><div class="in">${FIG_EXTRA}${fx.length?'<h2 style="margin-top:22px">Banco de questões de figuras</h2>'+fx.map(q=>`<section class="card">${qa(q)}</section>`).join(''):''}</div></details>`:'');}else if(r==='questoes')h=questoes();else if(r==='cards')h=cards();else if(r==='cola')h=cola();else{r='inicio';h=home();}
-  $('#app').innerHTML=h;nav(r);window.scrollTo(0,0);bind(r);if(r!=='figuras')linkFigs($('#app'));
+  $('#app').innerHTML=h;nav(r);window.scrollTo(0,0);bind(r);linkTerms($('#app'),r);
 }
 function bind(r){
   document.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>{const s=document.getElementById(b.dataset.say);speakEls([s],s.querySelector('h2').textContent,b);});
@@ -1387,30 +1418,37 @@ function bind(r){
     if($('#cfYes')){$('#cfYes').onclick=()=>mark(1);$('#cfNo').onclick=()=>mark(0);}}
 }
 
-/* figuras clicáveis: termos do glossário FIGDEF viram botões que abrem um painel, sem recarregar */
-let FIGRE=null;
-function figRe(){if(FIGRE!==null)return FIGRE;try{FIGRE=new RegExp('(?<![\\p{L}\\p{N}])('+FIGDEF.map(g=>g.f).join('|')+')(?![\\p{L}\\p{N}])','giu');}catch(e){FIGRE=false;}return FIGRE;}
-function figFind(w){w=w.toLowerCase();for(let i=0;i<FIGDEF.length;i++){if(new RegExp('^(?:'+FIGDEF[i].f+')$','iu').test(w))return i;}return -1;}
-function linkFigs(root){if(typeof FIGDEF==='undefined'||!root)return;const re=figRe();if(!re)return;
-  const skip='a,button,.fg,h1,h2,h3,summary,script,style,textarea,input,select,.fgx,#figSheet';
+/* termos clicáveis: figuras (FIGDEF, kit/d6.js) e escolas (ESCDEF, kit/d5.js) abrem um painel, sem recarregar */
+const GL={fig:{list:()=>typeof FIGDEF!=='undefined'?FIGDEF:[],cls:'fg',re:null},esc:{list:()=>typeof ESCDEF!=='undefined'?ESCDEF:[],cls:'es',re:null}};
+function glRe(k){const g=GL[k];if(g.re!==null)return g.re;try{const L=g.list();g.re=L.length?new RegExp('(?<![\\p{L}\\p{N}])('+L.map(x=>x.f).join('|')+')(?![\\p{L}\\p{N}])','giu'):false;}catch(e){g.re=false;}return g.re;}
+function glFind(k,w){const L=GL[k].list();for(let i=0;i<L.length;i++){if(new RegExp('^(?:'+L[i].f+')$','iu').test(w))return i;}return -1;}
+function linkGloss(root,k){const re=glRe(k);if(!re||!root)return;const cls=GL[k].cls;
+  const skip='a,button,.fg,.es,h1,h2,h3,summary,script,style,textarea,input,select,#figSheet';
   const tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>{if(!n.nodeValue.trim())return NodeFilter.FILTER_REJECT;const p=n.parentElement;if(!p||p.closest(skip))return NodeFilter.FILTER_REJECT;re.lastIndex=0;return re.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;}});
   const nodes=[];while(tw.nextNode())nodes.push(tw.currentNode);
   nodes.forEach(n=>{const s=n.nodeValue;re.lastIndex=0;const frag=document.createDocumentFragment();let last=0,m;
-    while((m=re.exec(s))){const i=figFind(m[1]);if(i<0)continue;if(m.index>last)frag.appendChild(document.createTextNode(s.slice(last,m.index)));
-      const b=document.createElement('span');b.setAttribute('role','button');b.tabIndex=0;b.className='fg';b.dataset.fig=i;b.textContent=m[1];b.setAttribute('aria-label',m[1]+': ver o que é esta figura');frag.appendChild(b);last=m.index+m[1].length;}
+    while((m=re.exec(s))){const i=glFind(k,m[1]);if(i<0)continue;if(m.index>last)frag.appendChild(document.createTextNode(s.slice(last,m.index)));
+      const b=document.createElement('span');b.setAttribute('role','button');b.tabIndex=0;b.className=cls;b.dataset.k=k;b.dataset.i=i;b.textContent=m[1];
+      b.setAttribute('aria-label',m[1]+(k==='fig'?': ver o que é esta figura':': ver o que é esta escola'));frag.appendChild(b);last=m.index+m[1].length;}
     if(last===0)return;if(last<s.length)frag.appendChild(document.createTextNode(s.slice(last)));n.parentNode.replaceChild(frag,n);});
 }
-function figOpen(i){const g=FIGDEF[i];if(!g)return;let sh=document.getElementById('figSheet');
+function linkTerms(root,r){if(r!=='escolas')linkGloss(root,'esc');if(r!=='figuras')linkGloss(root,'fig');}
+function sheet(html){let sh=document.getElementById('figSheet');
   if(!sh){sh=document.createElement('div');sh.id='figSheet';sh.setAttribute('role','dialog');sh.setAttribute('aria-modal','true');document.body.appendChild(sh);
     const bd=document.createElement('div');bd.id='figBack';document.body.appendChild(bd);bd.onclick=figClose;}
-  sh.innerHTML=`<div class="fs-top"><b class="fs-t">🔤 ${g.n}</b><button type="button" class="fs-x" aria-label="Fechar">✕</button></div>
-  <p>${g.d}</p><p><span class="fs-l">Exemplo</span>${g.e}</p><p><span class="fs-l">Efeito típico</span>${g.x}</p><p><span class="fs-l">Na prova</span>${g.t}</p>
-  <p class="fs-go"><a href="#figuras">Ver o módulo de Figuras de linguagem</a></p>`;
-  sh.querySelector('.fs-x').onclick=figClose;sh.querySelector('.fs-go a').onclick=figClose;
+  sh.innerHTML=html;sh.scrollTop=0;sh.querySelector('.fs-x').onclick=figClose;const go=sh.querySelector('.fs-go a');if(go)go.onclick=figClose;
   document.documentElement.classList.add('fs-open');sh.querySelector('.fs-x').focus({preventScroll:true});}
+const X='<button type="button" class="fs-x" aria-label="Fechar">✕</button>';
+function glOpen(k,i){const g=GL[k].list()[i];if(!g)return;
+  if(k==='fig')sheet(`<div class="fs-top"><b class="fs-t">🔤 ${g.n}</b>${X}</div><p class="fs-k">Figura de linguagem</p>
+  <p>${g.d}</p><p><span class="fs-l">Exemplo</span>${g.e}</p><p><span class="fs-l">Efeito típico</span>${g.x}</p><p><span class="fs-l">Na prova</span>${g.t}</p>
+  <p class="fs-go"><a href="#figuras">Ver o módulo de Figuras de linguagem</a></p>`);
+  else sheet(`<div class="fs-top"><b class="fs-t">🏛️ ${g.n}</b>${X}</div><p class="fs-k">Escola ou tendência literária</p>
+  <p><span class="fs-l">Época</span>${g.p}</p><p><span class="fs-l">Marcas</span>${g.m}</p><p><span class="fs-l">Na lista</span>${g.l}</p><p><span class="fs-l">Na prova</span>${g.t}</p>
+  <p class="fs-go"><a href="#escolas">Ver o módulo de Escolas literárias</a></p>`);}
 function figClose(){document.documentElement.classList.remove('fs-open');}
-document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.fg');if(b){e.preventDefault();e.stopPropagation();figOpen(+b.dataset.fig);}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')figClose();else if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('fg')){e.preventDefault();figOpen(+e.target.dataset.fig);}});
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.fg,.es');if(b){e.preventDefault();e.stopPropagation();glOpen(b.dataset.k,+b.dataset.i);}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')figClose();else if((e.key==='Enter'||e.key===' ')&&e.target.classList&&(e.target.classList.contains('fg')||e.target.classList.contains('es'))){e.preventDefault();glOpen(e.target.dataset.k,+e.target.dataset.i);}});
 /* voz */
 const synth=window.speechSynthesis;let queue=[],speaking=false,paused=false,curBtn=null,wake=null;
 function voice(){const v=synth.getVoices();return v.find(x=>/pt[-_]BR/i.test(x.lang))||v.find(x=>/^pt/i.test(x.lang))||null;}
@@ -1458,7 +1496,7 @@ window.addEventListener('hashchange',render);render();
   catch(e){say('Código inválido.');}
  };
  if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
- document.getElementById('bkVer').textContent='Versão: 26/11/2026 14:17';
+ document.getElementById('bkVer').textContent='Versão: 26/11/2026 14:36';
 })();
 </script>
 </body>
