@@ -256,14 +256,14 @@
 <itunes:explicit>false</itunes:explicit>
 </item>
 <item>
-<title>Episódio vinte e três. Redação, parte um: as regras e a dissertação</title>
-<description>Episódio vinte e três. Redação, parte um: as regras e a dissertação</description>
+<title>Episódio vinte e três. Redação, parte um: as regras e a dissertação em quatro parágrafos</title>
+<description>Episódio vinte e três. Redação, parte um: as regras e a dissertação em quatro parágrafos</description>
 <itunes:episode>23</itunes:episode>
 <itunes:episodeType>full</itunes:episodeType>
-<enclosure url="https://marcelorois.github.io/aux-estudo-2027/episodios/23-redacao-regras-e-dissertacao.mp3?v=9baf02ec63" length="6558549" type="audio/mpeg"/>
-<guid isPermaLink="false">fuv27-23-redacao-regras-e-dissertacao.mp3-9baf02ec63</guid>
+<enclosure url="https://marcelorois.github.io/aux-estudo-2027/episodios/23-redacao-regras-e-dissertacao.mp3?v=07013dd9a9" length="5628331" type="audio/mpeg"/>
+<guid isPermaLink="false">fuv27-23-redacao-regras-e-dissertacao.mp3-07013dd9a9</guid>
 <pubDate>Sat, 21 Nov 2026 06:00:00 GMT</pubDate>
-<itunes:duration>819</itunes:duration>
+<itunes:duration>703</itunes:duration>
 <itunes:explicit>false</itunes:explicit>
 </item>
 <item>
@@ -282,10 +282,10 @@
 <description>Episódio vinte e seis. Redação: checklist para a véspera</description>
 <itunes:episode>26</itunes:episode>
 <itunes:episodeType>full</itunes:episodeType>
-<enclosure url="https://marcelorois.github.io/aux-estudo-2027/episodios/26-redacao-vespera.mp3?v=a388f8043e" length="5482184" type="audio/mpeg"/>
-<guid isPermaLink="false">fuv27-26-redacao-vespera.mp3-a388f8043e</guid>
+<enclosure url="https://marcelorois.github.io/aux-estudo-2027/episodios/26-redacao-vespera.mp3?v=7aa3d88594" length="4891208" type="audio/mpeg"/>
+<guid isPermaLink="false">fuv27-26-redacao-vespera.mp3-7aa3d88594</guid>
 <pubDate>Sat, 21 Nov 2026 08:00:00 GMT</pubDate>
-<itunes:duration>685</itunes:duration>
+<itunes:duration>611</itunes:duration>
 <itunes:explicit>false</itunes:explicit>
 </item>
 </channel>
