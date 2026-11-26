@@ -120,7 +120,19 @@ th{font-family:var(--ui);background:var(--chip)}
 .muted{color:var(--muted)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 @media (prefers-reduced-motion:no-preference){.fc{transition:transform .25s}}
-p,li,td{overflow-wrap:break-word}</style>
+p,li,td{overflow-wrap:break-word}
+span.fg{cursor:pointer;border-bottom:1.5px dotted var(--accent);-webkit-tap-highlight-color:rgba(59,91,169,.15)}
+span.fg:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+#figBack{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .2s;z-index:60}
+#figSheet{position:fixed;left:0;right:0;bottom:0;max-height:62vh;overflow:auto;background:var(--surface);color:var(--ink);border-top:1px solid var(--line);border-radius:16px 16px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.18);padding:14px 16px calc(18px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .22s ease;z-index:61;font-size:16px;line-height:1.5;max-width:760px;margin:0 auto}
+.fs-open #figSheet{transform:none}.fs-open #figBack{opacity:1;pointer-events:auto}
+#figSheet .fs-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;font-family:var(--ui)}
+#figSheet .fs-t{font-size:18px}
+#figSheet .fs-x{all:unset;cursor:pointer;font-size:18px;padding:6px 10px;border-radius:10px;background:var(--chip)}
+#figSheet p{margin:0 0 10px}
+#figSheet .fs-l{display:block;font-family:var(--ui);font-weight:700;font-size:13px;color:var(--muted)}
+#figSheet .fs-go{font-family:var(--ui);font-size:15px}
+</style>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#1b2a4a">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -728,6 +740,46 @@ XCARDS.push(['O que a Fuvest pede quando cobra figura de linguagem?','Identifica
 // Tamanhos do módulo original (antes dos acréscimos de saida/figuras.js): usados para separar essencial de treino.
 var FIGQ_N0=FIGQ.length, XCARDS_N0=XCARDS.length;
 
+// Glossário para os termos clicáveis da página (app.js: linkFigs). f = formas que aparecem no texto (regex, sem limites de palavra).
+const FIGDEF=[
+{n:'Metáfora',f:'metáforas?|metafóric[oa]s?',d:'Comparação implícita: um termo passa a significar outro por semelhança, sem “como”.',e:'“Aquele professor é uma enciclopédia.”',x:'Condensa uma ideia numa imagem e transfere para um campo traços de outro.',t:'Diga quais são os dois campos aproximados e o que se transfere de um para o outro.'},
+{n:'Metonímia',f:'metonímias?|metonímic[oa]s?',d:'Troca de um termo por outro com o qual mantém relação real de proximidade: parte pelo todo, autor pela obra, marca pelo produto, efeito pela causa.',e:'“Li Machado inteiro nas férias” (o autor pela obra).',x:'Destaca um aspecto concreto e reduz o todo a ele.',t:'Não confunda com metáfora: na metonímia há contiguidade real, não semelhança.'},
+{n:'Comparação (símile)',f:'símiles?',d:'Aproximação explícita entre dois termos, com conectivo (como, tal qual, feito).',e:'“Calado como um túmulo.”',x:'Torna a ideia concreta e visível.',t:'Se houver “como”, é comparação; sem conectivo, metáfora.'},
+{n:'Prosopopeia (personificação)',f:'prosopopeias?|personificaç(?:ão|ões)|personificad[oa]s?',d:'Atribuir ações, sentimentos ou fala humanos a seres inanimados, animais ou ideias.',e:'“A bola beijou a trave” (Fuvest 2025).',x:'Dá vida e emoção ao que não tem; aproxima o leitor.',t:'Aponte o ser não humano e a ação humana atribuída a ele.'},
+{n:'Antítese',f:'antíteses?|antitétic[oa]s?',d:'Aproximação de palavras ou ideias de sentido oposto.',e:'“Amor que faz rir e faz chorar.”',x:'Realça o contraste e a tensão entre os polos.',t:'Na antítese os opostos convivem sem contradição lógica; se se fundem num absurdo, é paradoxo.'},
+{n:'Paradoxo (oxímoro)',f:'paradoxos?|paradoxa(?:l|is)|oxímoros?',d:'Ideias opostas afirmadas ao mesmo tempo sobre a mesma coisa, criando aparente absurdo.',e:'“Uma vida de ruidoso silêncio.”',x:'Obriga a pensar além da lógica comum; sugere uma verdade mais funda.',t:'Explique por que parece absurdo e que sentido o absurdo produz.'},
+{n:'Ironia',f:'ironias?|irônic[oa]s?|ironicamente',d:'Dizer o contrário do que se quer dizer, deixando o sentido real ser percebido pelo contexto (ou pela imagem, nas charges).',e:'Num dia de tempestade: “Que dia lindo para a praia!”',x:'Critica ou zomba de forma indireta; cria humor ou desconforto.',t:'Mostre o choque entre o que é dito e o que se quer dizer (ou entre palavra e imagem).'},
+{n:'Hipérbole',f:'hipérboles?|hiperbólic[oa]s?',d:'Exagero intencional.',e:'“Já te falei um milhão de vezes.”',x:'Intensifica a emoção ou a ideia.',t:'Cuidado: em 2026, “todo mundo” foi lido como generalização retórica que cria falso consenso, não como hipérbole.'},
+{n:'Eufemismo',f:'eufemismos?|eufêmic[oa]s?',d:'Suavizar uma ideia dura ou desagradável.',e:'“Ele partiu desta para melhor” (morreu).',x:'Atenua; pode também esconder a gravidade de algo.',t:'Diga o que é suavizado e com que efeito (delicadeza ou ocultação).'},
+{n:'Gradação',f:'gradaç(?:ão|ões)',d:'Sequência de termos em intensidade crescente (clímax) ou decrescente (anticlímax).',e:'Charge de 2024: acusação, julgamento, condenação, execução.',x:'Cria progressão e tensão até o ponto mais forte.',t:'Mostre a ordem e o termo-ápice; diga o efeito do último degrau.'},
+{n:'Anáfora',f:'anáforas?',d:'Repetição da mesma palavra ou expressão no início de versos ou frases seguidos.',e:'“Já não faria depósitos. Já não tentaria domesticar. Já não prescreveria.” (Paulo Freire, Fuvest 2023)',x:'Martela a ideia, dá ritmo e ênfase.',t:'Diga o que é repetido e que ideia a repetição reforça.'},
+{n:'Refrão (estribilho)',f:'refrão|refrões|estribilhos?',d:'Verso ou frase que volta periodicamente ao longo do texto.',e:'“E as ideias.” no Romanceiro da Inconfidência (Fuvest 2025).',x:'Fixa o tema central e dá unidade e ritmo.',t:'A Fuvest 2025 pediu o que a repetição indica para a composição do poema.'},
+{n:'Polissemia',f:'polissemias?|polissêmic[oa]s?',d:'Uma palavra com vários sentidos, explorada de propósito.',e:'“Destino” do lixo e destino de viagem (Fuvest 2025); “execução” (2024).',x:'Gera humor, crítica ou duplo sentido.',t:'Diga os dois sentidos e qual o contexto ativa.'},
+{n:'Ambiguidade',f:'ambiguidades?|ambígu[oa]s?',d:'Frase que admite mais de uma leitura (por estrutura ou por palavra).',e:'“Vi o menino com o binóculo.” (quem tinha o binóculo?)',x:'Pode ser falha ou recurso de humor e crítica.',t:'Apresente as duas leituras possíveis e a causa da ambiguidade.'},
+{n:'Sinestesia',f:'sinestesias?|sinestésic[oa]s?',d:'Mistura de sensações de sentidos diferentes.',e:'“Um perfume doce e barulhento.”',x:'Intensifica a experiência sensorial.',t:'Aponte os dois sentidos misturados.'},
+{n:'Aliteração',f:'aliteraç(?:ão|ões)',d:'Repetição de sons consonantais.',e:'“O rato roeu a roupa do rei de Roma.”',x:'Cria sonoridade e imita sons.',t:'Diga o som repetido e o efeito sonoro.'},
+{n:'Assonância',f:'assonâncias?',d:'Repetição de sons vocálicos.',e:'“Na rua nua, a lua flutua.” (repete o som de u)',x:'Musicalidade.',t:'Indique a vogal repetida.'},
+{n:'Elipse',f:'elipses?',d:'Omissão de um termo fácil de deduzir.',e:'“Na sala, poucos alunos.” (havia)',x:'Concisão e ritmo.',t:'Diga qual termo foi omitido.'},
+{n:'Zeugma',f:'zeugmas?',d:'Omissão de um termo que já apareceu antes na frase.',e:'“Ela gosta de cinema; eu, de teatro.” (gosto)',x:'Evita repetição; dá agilidade.',t:'É uma elipse de termo já citado.'},
+{n:'Pleonasmo',f:'pleonasmos?|pleonástic[oa]s?',d:'Repetição de uma ideia já expressa, para reforçar (literário) ou por descuido (vicioso).',e:'“Vi com meus próprios olhos.”',x:'Ênfase.',t:'Diga se é expressivo ou vicioso.'},
+{n:'Polissíndeto',f:'polissíndetos?',d:'Repetição de conectivos, sobretudo “e”.',e:'“E corre, e grita, e chora, e cai.”',x:'Sensação de acúmulo, movimento ou cansaço.',t:'Oposto do assíndeto.'},
+{n:'Assíndeto',f:'assíndetos?',d:'Ausência de conectivos entre termos ou orações coordenados.',e:'“Vim, vi, venci.”',x:'Rapidez e secura.',t:'Oposto do polissíndeto.'},
+{n:'Apóstrofe',f:'apóstrofes?',d:'Interpelação direta a alguém ou algo, presente ou ausente (o vocativo enfático).',e:'“Deus! ó Deus! onde estás que não respondes?” (Castro Alves)',x:'Emoção e dramaticidade; cria um interlocutor.',t:'Não confunda com apóstrofo (sinal gráfico).'},
+{n:'Hipérbato (inversão)',f:'hipérbatos?|anástrofes?|inversões sintáticas|inversão sintática',d:'Alteração da ordem direta da frase.',e:'“Irá mal, de fato, o vernáculo no Brasil?” (Fuvest 2025)',x:'Destaca o termo deslocado; cria ritmo ou solenidade.',t:'Reescreva na ordem direta e diga o que ficou em destaque.'},
+{n:'Quiasmo',f:'quiasmos?',d:'Cruzamento de termos em ordem invertida (AB/BA).',e:'“Comer para viver, não viver para comer.”',x:'Ênfase e efeito de espelho.',t:'Mostre os termos que trocam de lugar.'},
+{n:'Anadiplose',f:'anadiploses?',d:'A palavra que fecha uma frase ou verso abre a seguinte.',e:'“O medo gera silêncio; o silêncio, conivência.” (o Romanceiro da Inconfidência, cobrado em 2023, usa esse encadeamento)',x:'Encadeia causa e consequência.',t:'Mostre o elo que se repete.'},
+{n:'Catacrese',f:'catacreses?',d:'Metáfora já gasta, usada por falta de termo próprio.',e:'“Pé da mesa”, “braço da cadeira”.',x:'Nomeia; quase não é percebida como figura.',t:'Raramente é o foco da Fuvest.'},
+{n:'Alegoria',f:'alegorias?|alegóric[oa]s?',d:'Metáfora prolongada: uma história ou imagem concreta que representa, ponto por ponto, uma ideia abstrata.',e:'A Justiça como mulher vendada com uma balança.',x:'Torna concreta uma ideia moral ou política.',t:'Explique o que cada elemento representa.'},
+{n:'Enumeração (acumulação)',f:'enumeraç(?:ão|ões)|acumulaç(?:ão|ões)',d:'Sequência de termos acumulados.',e:'A queima das roupas em A visão das plantas (Fuvest 2027, 1ª fase).',x:'Dá volume, excesso ou sensação de totalidade.',t:'Na Visão, enumeração + destruição = apagamento do trabalho que os objetos representam.'},
+{n:'Perífrase (antonomásia)',f:'perífrases?|antonomásias?',d:'Designar algo ou alguém por uma expressão que o caracteriza.',e:'“A Cidade Maravilhosa” (Rio de Janeiro); “o Poeta dos Escravos” (Castro Alves).',x:'Destaca um atributo; evita repetição.',t:'Diga quem é designado e o atributo destacado.'},
+{n:'Onomatopeia',f:'onomatopeias?|onomatopaic[oa]s?|onomatopeic[oa]s?',d:'Palavra que imita um som.',e:'“Tique-taque”, “tuque-tuque” (As meninas, Fuvest 2026).',x:'Concretiza o som; cria ritmo.',t:'Diga o som imitado e o efeito.'},
+{n:'Neologismo',f:'neologismos?',d:'Palavra criada, nova na língua ou no texto.',e:'“Fluviante” e “flutual” (João Cabral, Fuvest 2026).',x:'Expressividade, humor ou crítica.',t:'Explique como a palavra foi formada (radical + sufixo) e o sentido no contexto.'},
+{n:'Intertextualidade',f:'intertextualidades?|intertextua(?:l|is)',d:'Diálogo de um texto com outro (citação, alusão, paródia, paráfrase).',e:'Drummond retoma a “Canção do exílio” (Fuvest 2023).',x:'Cria sentido pela semelhança ou pela diferença com o texto de origem.',t:'Nomeie o texto retomado e diga o que muda no novo contexto.'},
+{n:'Paródia',f:'paródias?|paródic[oa]s?',d:'Retomada de um texto conhecido para subvertê-lo, com humor ou crítica.',e:'“Minha terra tem palmares” (Oswald) sobre a “Canção do exílio”.',x:'Critica o texto original ou a realidade.',t:'Diferente da paráfrase, que mantém o sentido.'},
+{n:'Metalinguagem',f:'metalinguagem|metalinguístic[oa]s?',d:'Linguagem que fala de si mesma: o poema sobre o poema, o texto sobre o escrever.',e:'“Catar feijão”, de João Cabral, sobre o ato de escrever (Fuvest 2026).',x:'Reflete sobre o próprio fazer artístico.',t:'Diga o que o texto ensina ou questiona sobre a escrita.'},
+{n:'Lítotes',f:'lítotes|litotes',d:'Afirmar algo pela negação do contrário.',e:'“Ele não é nada bobo” (é esperto).',x:'Atenua ou ironiza.',t:'Reescreva na forma afirmativa.'}
+];
+
 Object.assign(BOOKS.find(b=>b.id==='balada'),{
 perto:[
 ['1. A Mafalala, o melão e o vulcão (cap. 1)','<p><b>O que acontece.</b> Sarnau, envelhecida, abre o livro com saudade do Save e se apresenta na Mafalala, bairro de miséria de Lourenço Marques. A filha que estuda lhe disse que a Terra é verde por fora e vermelha no centro, como um melão; Sarnau conclui que a terra é como a mulher: aguenta os golpes calada até explodir como vulcão. Duvida que sua história interesse, porque não tem nada de novo: muitas mulheres vivem assim.</p><p><b>Como está escrito.</b> Comparações em cadeia (terra, melão, mulher), metáfora do vulcão, perguntas retóricas e fala dirigida a ouvintes (ela pede que não a levem a mal). Diz estar dispersa entre o Save, a Mafalala e o ar.</p><p><b>O que significa.</b> A moldura define o romance: memória oral de uma mulher comum, cuja vida representa a de muitas. Por isso a violência que ela conta é estrutura, não caso isolado.</p><p><b>Como cairia.</b> Foco narrativo e memória; base para a leitura da Q78 (patriarcado que atravessa contextos).</p>'],
@@ -1322,7 +1374,7 @@ function render(){
   document.documentElement.style.setProperty('--accent','#3B5BA9');
   let h;
   if(BY[r])h=book(r);else if(r==='metodo')h=metodo();else if(r==='cruzar')h=cruzar();else if(r==='escolas')h=ESCOLAS;else if(r==='figuras'){const fx=FIGQ.slice(FIGQ_N0);h=FIGURAS+'<h2 style="margin-top:22px">Questões discursivas para treinar</h2>'+FIGQ.slice(0,FIGQ_N0).map(q=>`<section class="card">${qa(q)}</section>`).join('')+((FIG_EXTRA||fx.length)?`<details class="deep"><summary>Treino e banco de figuras (opcional)</summary><div class="in">${FIG_EXTRA}${fx.length?'<h2 style="margin-top:22px">Banco de questões de figuras</h2>'+fx.map(q=>`<section class="card">${qa(q)}</section>`).join(''):''}</div></details>`:'');}else if(r==='questoes')h=questoes();else if(r==='cards')h=cards();else if(r==='cola')h=cola();else{r='inicio';h=home();}
-  $('#app').innerHTML=h;nav(r);window.scrollTo(0,0);bind(r);
+  $('#app').innerHTML=h;nav(r);window.scrollTo(0,0);bind(r);if(r!=='figuras')linkFigs($('#app'));
 }
 function bind(r){
   document.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>{const s=document.getElementById(b.dataset.say);speakEls([s],s.querySelector('h2').textContent,b);});
@@ -1334,6 +1386,31 @@ function bind(r){
     const mark=v=>{const c=cf.list[cf.i];ST.cards[c.f]=v;save();cf.i=(cf.i+1)%Math.max(1,cf.list.length);render();};
     if($('#cfYes')){$('#cfYes').onclick=()=>mark(1);$('#cfNo').onclick=()=>mark(0);}}
 }
+
+/* figuras clicáveis: termos do glossário FIGDEF viram botões que abrem um painel, sem recarregar */
+let FIGRE=null;
+function figRe(){if(FIGRE!==null)return FIGRE;try{FIGRE=new RegExp('(?<![\\p{L}\\p{N}])('+FIGDEF.map(g=>g.f).join('|')+')(?![\\p{L}\\p{N}])','giu');}catch(e){FIGRE=false;}return FIGRE;}
+function figFind(w){w=w.toLowerCase();for(let i=0;i<FIGDEF.length;i++){if(new RegExp('^(?:'+FIGDEF[i].f+')$','iu').test(w))return i;}return -1;}
+function linkFigs(root){if(typeof FIGDEF==='undefined'||!root)return;const re=figRe();if(!re)return;
+  const skip='a,button,.fg,h1,h2,h3,summary,script,style,textarea,input,select,.fgx,#figSheet';
+  const tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>{if(!n.nodeValue.trim())return NodeFilter.FILTER_REJECT;const p=n.parentElement;if(!p||p.closest(skip))return NodeFilter.FILTER_REJECT;re.lastIndex=0;return re.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;}});
+  const nodes=[];while(tw.nextNode())nodes.push(tw.currentNode);
+  nodes.forEach(n=>{const s=n.nodeValue;re.lastIndex=0;const frag=document.createDocumentFragment();let last=0,m;
+    while((m=re.exec(s))){const i=figFind(m[1]);if(i<0)continue;if(m.index>last)frag.appendChild(document.createTextNode(s.slice(last,m.index)));
+      const b=document.createElement('span');b.setAttribute('role','button');b.tabIndex=0;b.className='fg';b.dataset.fig=i;b.textContent=m[1];b.setAttribute('aria-label',m[1]+': ver o que é esta figura');frag.appendChild(b);last=m.index+m[1].length;}
+    if(last===0)return;if(last<s.length)frag.appendChild(document.createTextNode(s.slice(last)));n.parentNode.replaceChild(frag,n);});
+}
+function figOpen(i){const g=FIGDEF[i];if(!g)return;let sh=document.getElementById('figSheet');
+  if(!sh){sh=document.createElement('div');sh.id='figSheet';sh.setAttribute('role','dialog');sh.setAttribute('aria-modal','true');document.body.appendChild(sh);
+    const bd=document.createElement('div');bd.id='figBack';document.body.appendChild(bd);bd.onclick=figClose;}
+  sh.innerHTML=`<div class="fs-top"><b class="fs-t">🔤 ${g.n}</b><button type="button" class="fs-x" aria-label="Fechar">✕</button></div>
+  <p>${g.d}</p><p><span class="fs-l">Exemplo</span>${g.e}</p><p><span class="fs-l">Efeito típico</span>${g.x}</p><p><span class="fs-l">Na prova</span>${g.t}</p>
+  <p class="fs-go"><a href="#figuras">Ver o módulo de Figuras de linguagem</a></p>`;
+  sh.querySelector('.fs-x').onclick=figClose;sh.querySelector('.fs-go a').onclick=figClose;
+  document.documentElement.classList.add('fs-open');sh.querySelector('.fs-x').focus({preventScroll:true});}
+function figClose(){document.documentElement.classList.remove('fs-open');}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.fg');if(b){e.preventDefault();e.stopPropagation();figOpen(+b.dataset.fig);}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')figClose();else if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('fg')){e.preventDefault();figOpen(+e.target.dataset.fig);}});
 /* voz */
 const synth=window.speechSynthesis;let queue=[],speaking=false,paused=false,curBtn=null,wake=null;
 function voice(){const v=synth.getVoices();return v.find(x=>/pt[-_]BR/i.test(x.lang))||v.find(x=>/^pt/i.test(x.lang))||null;}
@@ -1381,7 +1458,7 @@ window.addEventListener('hashchange',render);render();
   catch(e){say('Código inválido.');}
  };
  if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
- document.getElementById('bkVer').textContent='Versão: 26/11/2026 13:54';
+ document.getElementById('bkVer').textContent='Versão: 26/11/2026 14:17';
 })();
 </script>
 </body>
