@@ -1,18 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-<title>Literatura Fuvest 2027: áudios</title>
+<title>Fuvest 2027 · Filosofia: áudios</title>
 <link>https://marcelorois.github.io/aux-estudo-2027/</link>
 <atom:link href="https://marcelorois.github.io/aux-estudo-2027/podcast.xml" rel="self" type="application/rss+xml"/>
 <language>pt-br</language>
-<description>Conversas de estudo entre uma professora e um aluno: as 9 obras da 2ª fase da Fuvest 2027, redação e véspera. Vozes sintéticas.</description>
+<description>Episódios de estudo da 2ª fase da Fuvest 2027 (Filosofia): História, Geografia, Língua Portuguesa, as 9 obras da lista e redação. Vozes sintéticas.</description>
 <itunes:author>Material de estudo</itunes:author>
-<itunes:summary>Conversas de estudo sobre as 9 obras da 2ª fase da Fuvest 2027, redação e véspera.</itunes:summary>
+<itunes:summary>Episódios de estudo da 2ª fase da Fuvest 2027: História, Geografia, Língua e Literatura.</itunes:summary>
 <itunes:type>serial</itunes:type>
 <itunes:image href="https://marcelorois.github.io/aux-estudo-2027/capa.jpg"/>
 <itunes:category text="Education"/>
 <itunes:explicit>false</itunes:explicit>
 <itunes:block>Yes</itunes:block>
+<item>
+<title>História: Escravidão, tráfico, abolição e quilombos</title>
+<description>História: Escravidão, tráfico, abolição e quilombos. A ficha completa está no app.</description>
+<itunes:episode>104</itunes:episode>
+<itunes:episodeType>full</itunes:episodeType>
+<enclosure url="https://marcelorois.github.io/aux-estudo-2027/episodios/104-escravidao.mp3?v=762be361bd" length="4016685" type="audio/mpeg"/>
+<guid isPermaLink="false">fuv27-104-escravidao.mp3-762be361bd</guid>
+<pubDate>Sat, 28 Nov 2026 11:00:00 GMT</pubDate>
+<itunes:duration>502</itunes:duration>
+<itunes:explicit>false</itunes:explicit>
+</item>
+<item>
+<title>História: Era Vargas, populismo e trabalhismo</title>
+<description>História: Era Vargas, populismo e trabalhismo. A ficha completa está no app.</description>
+<itunes:episode>102</itunes:episode>
+<itunes:episodeType>full</itunes:episodeType>
+<enclosure url="https://marcelorois.github.io/aux-estudo-2027/episodios/102-vargas.mp3?v=32ef039f9f" length="3908589" type="audio/mpeg"/>
+<guid isPermaLink="false">fuv27-102-vargas.mp3-32ef039f9f</guid>
+<pubDate>Sat, 28 Nov 2026 09:00:00 GMT</pubDate>
+<itunes:duration>488</itunes:duration>
+<itunes:explicit>false</itunes:explicit>
+</item>
+<item>
+<title>Método: Como responder História e Geografia na Fuvest</title>
+<description>Método: Como responder História e Geografia na Fuvest. A ficha completa está no app.</description>
+<itunes:episode>101</itunes:episode>
+<itunes:episodeType>full</itunes:episodeType>
+<enclosure url="https://marcelorois.github.io/aux-estudo-2027/episodios/101-metodo.mp3?v=db4ac79095" length="3598125" type="audio/mpeg"/>
+<guid isPermaLink="false">fuv27-101-metodo.mp3-db4ac79095</guid>
+<pubDate>Sat, 28 Nov 2026 08:00:00 GMT</pubDate>
+<itunes:duration>449</itunes:duration>
+<itunes:explicit>false</itunes:explicit>
+</item>
 <item>
 <title>A paixão segundo G. H., de Clarice Lispector: o que cai na Fuvest</title>
 <description>A paixão segundo G. H., de Clarice Lispector: o que cai na Fuvest</description>
