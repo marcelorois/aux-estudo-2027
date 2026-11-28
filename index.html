@@ -5957,14 +5957,14 @@ const BY=Object.fromEntries(BOOKS.map(b=>[b.id,b]));
 const PLAN=[
  ['2026-11-26','qui 26/11',['gh','geografia'],'A paixão segundo G. H. e Geografia','Ler “Regras do jogo” e o esqueleto de 4 parágrafos (10 min).',null],
  ['2026-11-27','sex 27/11',['caminho','balada'],'Caminho de pedras e Balada de amor ao vento','§1: escrever 3 teses com tensão (10 min).',null],
- ['2026-11-28','sáb 28/11',['cancao','visao'],'Canção para ninar menino grande e A visão das plantas','Mapa da coletânea de 2023: o que vai no §2 e no §3 (10 min).',null],
- ['2026-11-29','dom 29/11',['martha','opusculo'],'Memórias de Martha e Opúsculo humanitário','A redação cronometrada em 4 parágrafos: tema de 2024, 1h40.',{o:['p-metodo','h-vargas'],a:['p-metodo'],x:['h-vargas']}],
- ['2026-11-30','seg 30/11',['nebulosas','escolas'],'Nebulosas e as escolas literárias','Autocorreção parágrafo por parágrafo; reescrever o mais fraco.',{o:['h-totalitarismos','h-escravidao'],a:['l-palavras','l-reescrita'],x:['h-totalitarismos','h-escravidao']}],
- ['2026-12-01','ter 1/12',['figuras'],'Figuras de linguagem','§2 com A–I–F, coletânea de 2026 (10 min).',{o:['h-imperialismo','h-iluminismo'],a:['l-sentido','l-coesao'],x:['h-imperialismo','h-iluminismo']}],
- ['2026-12-02','qua 2/12',['questoes'],'Questões, dia 1','§3: contraponto, reconhecer, provar e refinar (10 min).',{o:['h-republica','g-clima'],a:['l-modalizacao','l-generos'],x:['h-republica','g-clima']}],
- ['2026-12-03','qui 3/12',['questoes'],'Questões, dia 2','Pontes entre parágrafos e §4 sem argumento novo (10 min).',{o:['g-riscos','g-agro'],a:['g-cartografia','g-natureza'],x:['g-riscos','g-agro']}],
- ['2026-12-04','sex 4/12',['questoes','cruzar'],'Questões, dia 3, e cruzar obras','Norma: caçar 6 erros num parágrafo (10 min).',{o:['g-urbano','p-migracoes'],a:['l-simulado'],x:['g-urbano','p-migracoes']}],
- ['2026-12-05','sáb 5/12',['cards','cola'],'Flashcards e a cola de uma tela','Véspera: esqueleto de 4 linhas para um tema-palpite; checklist; episódio 26.',{o:['p-trabalho','p-ordem','p-territorios'],a:['p-simulado26'],x:['p-trabalho','p-ordem','p-territorios']}],
+ ['2026-11-28','sáb 28/11',['cancao','visao'],'Canção para ninar menino grande e A visão das plantas','Mapa da coletânea de 2023: o que vai no §2 e no §3 (10 min).',{o:['h-vargas'],a:['p-metodo'],n:'Conteúdo novo de Língua e Hist·Geo no ar: comece pelo método (5 min) e ouça o episódio de Vargas.'}],
+ ['2026-11-29','dom 29/11',['martha','opusculo'],'Memórias de Martha e Opúsculo humanitário','A redação cronometrada em 4 parágrafos: tema de 2024, 1h40.',{o:['h-totalitarismos','h-escravidao'],a:['l-palavras']}],
+ ['2026-11-30','seg 30/11',['nebulosas','escolas'],'Nebulosas e as escolas literárias','Autocorreção parágrafo por parágrafo; reescrever o mais fraco.',{o:['h-imperialismo','h-iluminismo'],a:['l-reescrita','l-sentido']}],
+ ['2026-12-01','ter 1/12',['figuras'],'Figuras de linguagem','§2 com A–I–F, coletânea de 2026 (10 min).',{o:['h-republica','g-clima'],a:['l-coesao','l-modalizacao']}],
+ ['2026-12-02','qua 2/12',['questoes'],'Questões, dia 1','§3: contraponto, reconhecer, provar e refinar (10 min).',{o:['g-riscos','g-agro'],a:['l-generos','g-cartografia']}],
+ ['2026-12-03','qui 3/12',['questoes'],'Questões, dia 2','Pontes entre parágrafos e §4 sem argumento novo (10 min).',{o:['g-urbano','p-migracoes'],a:['g-natureza','l-simulado']}],
+ ['2026-12-04','sex 4/12',['questoes','cruzar'],'Questões, dia 3, e cruzar obras','Norma: caçar 6 erros num parágrafo (10 min).',{o:['p-trabalho','p-ordem','p-territorios'],a:['p-simulado26']}],
+ ['2026-12-05','sáb 5/12',['cards','cola'],'Flashcards e a cola de uma tela','Véspera: esqueleto de 4 linhas para um tema-palpite; checklist; episódio 26.',{o:['p-metodo'],a:[],n:'Véspera: nada de conteúdo novo. Faça a revisão de hoje dos flashcards (aba Treinar) e leia a cola por disciplina.'}],
  ['2026-12-06','dom 6/12',['cola'],'Dia da prova: só a cola, com calma','Prova: marque a proposta escolhida na folha.',{o:[],a:['cola'],x:[],n:'À noite, depois da prova: a cola do 2º dia (aba Cola) e nada de conteúdo novo.'}],
  ['2026-12-07','seg 7/12',['cola'],'2º dia: História e Geografia','',{o:[],a:['cola'],x:[],n:'Manhã: só a cola do 2º dia. Na prova: nome técnico no item a, dois elementos no b, contexto de fora no c.'}]];
 /* módulo de redação ligado à tarefa de cada dia do PLAN (só navegação) */
@@ -6449,7 +6449,7 @@ window.addEventListener('hashchange',render);render();
   catch(e){say('Código inválido.');}
  };
  if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
- document.getElementById('bkVer').textContent='Versão: 28/11/2026 12:53';
+ document.getElementById('bkVer').textContent='Versão: 28/11/2026 12:58';
 })();
 </script>
 </body>
