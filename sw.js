@@ -1,4 +1,4 @@
-const CACHE='fuv27-0b255596885c';
+const CACHE='fuv27-ece0379ef81c';
 const ARQ=['./','index.html','manifest.webmanifest','icones/icone-180.png','icones/icone-192.png','icones/icone-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ARQ)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
