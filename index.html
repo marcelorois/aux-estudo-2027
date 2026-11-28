@@ -405,7 +405,7 @@ details.qa .o0:empty{display:none}
 <meta name="theme-color" content="#1b2a4a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Fuvest 27">
+<meta name="apple-mobile-web-app-title" content="Fuvest Filosofia">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="icones/icone-180.png">
 <link rel="icon" href="icones/icone-192.png">
@@ -6303,7 +6303,7 @@ function topbar(r,I){
   const bb=$('#backBtn');const tgt=STACK.length>1?STACK[STACK.length-2]:I.parent;
   if(tgt){bb.hidden=false;const ti=info(tgt);const bl=ti?ti.title:'Voltar';$('#backLbl').textContent=bl.length>10?'Voltar':bl;bb.setAttribute('aria-label','Voltar para '+(ti?ti.title:''));}else bb.hidden=true;
   $$('#tabbar a').forEach(a=>{const on=a.dataset.t===I.tab;a.classList.toggle('on',on);if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
-  document.title=(r==='inicio'?'':I.title+' · ')+'Literatura Fuvest 2027';
+  document.title=(r==='inicio'?'':I.title+' · ')+'Fuvest 2027 · Filosofia';
 }
 $('#backBtn').onclick=()=>{if(STACK.length>1)history.back();else{const I=info(CUR);if(I&&I.parent)location.hash='#'+I.parent;}};
 $$('#tabbar a').forEach(a=>a.addEventListener('click',e=>{if(location.hash===a.getAttribute('href')||(!location.hash&&a.dataset.t==='inicio')){e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});}}));
@@ -6449,7 +6449,7 @@ window.addEventListener('hashchange',render);render();
   catch(e){say('Código inválido.');}
  };
  if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
- document.getElementById('bkVer').textContent='Versão: 28/11/2026 12:42';
+ document.getElementById('bkVer').textContent='Versão: 28/11/2026 12:53';
 })();
 </script>
 </body>
